@@ -32,7 +32,8 @@ public class GameManager : MonoBehaviour
         this.bricksBroken = 0;
         this.numBricks = 0;
 
-        LoadLevel(1);
+        //LoadLevel(1);
+        LoadLevel(2);       // Only leave on when Testing lvl2
     }
 
     private void LoadLevel(int lvl)

@@ -15,7 +15,8 @@ public class Bricks : MonoBehaviour
     {
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         gameManager = FindObjectOfType<GameManager>();
-        gameManager.numBricks++;
+        if (!unbreakable)
+            gameManager.numBricks++;
     }
 
     private void Start()
