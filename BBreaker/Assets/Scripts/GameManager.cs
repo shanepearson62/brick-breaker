@@ -65,7 +65,6 @@ public class GameManager : MonoBehaviour
         }
 
         LoadLevel(1);
-        //LoadLevel(2);       // Only leave on when Testing lvl2
     }
 
     private void LoadLevel(int lvl)
