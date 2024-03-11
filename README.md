@@ -1,2 +1,2 @@
-# baseball-breaker
-Brick Breaker with a Baseball Theme
+# brick-breaker
+Brick Breaker
