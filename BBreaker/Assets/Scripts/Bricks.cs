@@ -9,14 +9,11 @@ public class Bricks : MonoBehaviour
     public int health { get; private set; }
     public bool unbreakable;
     public int points = 100;        // Per Hit
-    private static GameManager gameManager;
+    private static GameManager gameManager; 
 
     private void Awake()
     {
         this.spriteRenderer = GetComponent<SpriteRenderer>();
-        gameManager = FindObjectOfType<GameManager>();
-        if (!unbreakable)
-            gameManager.numBricks++;
     }
 
     private void Start()
@@ -48,7 +45,7 @@ public class Bricks : MonoBehaviour
         this.health--;
         if (this.health <= 0)
         {
-            gameManager.bricksBroken++;
+            GameManager.numBricks--;
             Destroy(this.gameObject);
         }
         else

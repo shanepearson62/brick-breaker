@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public GameObject heartsRef;
     public TextMeshProUGUI scoreRef;
 
+    
+
     // Find Object Refs on Level Load
     public Ball ball { get; private set; }
     public Paddle paddle { get; private set; }
@@ -22,14 +24,21 @@ public class GameManager : MonoBehaviour
     public int score = 0;
     public int lives = 3;
     public int bricksBroken = 0;
-    public int numBricks = 0;
+    public static int numBricks = 5;
+    public Bricks[][] brickList = new Bricks[numBricks][];
 
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+        //opti never destroy the ball and paddle
+        DontDestroyOnLoad(this.ball = FindObjectOfType<Ball>());
+        DontDestroyOnLoad(this.paddle = FindObjectOfType<Paddle>());
+
         DontDestroyOnLoad(inGameCanvasRef);
 
         SceneManager.sceneLoaded += OnLevelLoaded;
+
+
     }
 
     void Start()
@@ -55,14 +64,22 @@ public class GameManager : MonoBehaviour
         this.score = 0;
         this.lives = 3;
         this.bricksBroken = 0;
-        this.numBricks = 0;
+        GameManager.numBricks = 0;
         scoreRef.text = $"Score: {this.score}";
 
         //Reset Heart UI
+        /*
         for (int i = 0; i < heartsRef.transform.childCount; i++)
         {
             heartsRef.transform.GetChild(i).gameObject.SetActive(true);
         }
+        */
+        //opti fix for allocating new memory for loop
+        heartsRef.transform.GetChild(0).gameObject.SetActive(true);
+        heartsRef.transform.GetChild(1).gameObject.SetActive(true);
+        heartsRef.transform.GetChild(2).gameObject.SetActive(true);
+
+        ActivateBricks();
 
         LoadLevel(1);
     }
@@ -74,10 +91,30 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(this.level);
     }
 
+    private void ActivateBricks()
+    {
+        foreach(Bricks[] brick in brickList)
+        {
+            foreach (Bricks brickIndex in brick)
+            {
+                if (!brickIndex.unbreakable)
+                {
+                    GameManager.numBricks++;
+                }
+            }
+            
+        }
+    }
+
     private void OnLevelLoaded(Scene scene, LoadSceneMode mode)
     {
+        /*
         this.ball = FindObjectOfType<Ball>();
         this.paddle = FindObjectOfType<Paddle>();
+        */
+
+        //opti reset ball when level starts
+        ResetLevel();
     }
 
     private void ResetLevel()
